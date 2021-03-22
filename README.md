@@ -15,9 +15,7 @@
 <br>
 <p>突っ込んだら、保存して実行してみてください。</p>
 <p>うまくいけば実行できるはずです。</p>
-<br>
 <p>テスト環境</p>
-<br>
 <p>Version:Windows10</p>
 <p>CPU:intel core-i3 6100U</p>
 <p>GPU:Intel(R) HD Graphics 520</p>
