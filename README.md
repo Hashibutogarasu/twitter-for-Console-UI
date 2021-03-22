@@ -2,7 +2,6 @@
 CUI環境からツイートできるようにするやつ
 
 使い方
-How to use
 
 ・pip install tweepy
 ・pip install time
