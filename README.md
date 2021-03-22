@@ -1,7 +1,7 @@
 # twitter_for_python
-CUI環境からツイートできるようにするやつ
+<p>CUI環境からツイートできるようにするやつ</p>
 
-使い方\n
+<p>使い方</p>
 
 ・pip install tweepy
 ・pip install time
