@@ -21,6 +21,5 @@
 <p>Version:Windows10</p>
 <p>CPU:intel core-i3 6100U</p>
 <p>GPU:Intel(R) HD Graphics 520</p>
-<br>
 <p>Python 3.8.8</p>
 <p>pip 21.0.1</p>
