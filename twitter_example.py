@@ -103,7 +103,7 @@ while True:
         print("login as=>ログイン中のアカウントを表示するコマンド。\n")
         print("logout=>Twitter for CUIを終了するコマンド。\n")
     elif (twitter_cui_command == "logout") :
-        print('Twitter for Pythonを終了します。')
+        print('Twitter for CUIを終了します。')
         break
     else :
         print("コマンドを入力してください。\n入力したコマンド","「",twitter_cui_command,"」は存在しません。")
