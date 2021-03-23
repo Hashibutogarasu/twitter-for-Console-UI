@@ -1,9 +1,11 @@
+print('Twitter for CUIを起動しています...')
 import sys
 import tweepy
 import webbrowser
 import urllib
 from selenium import webdriver
 import time
+print('インポートが完了しました。')
 
 API_KEY = '**********'  
 API_KEY_SECRET = '*********'
@@ -99,7 +101,7 @@ while True:
         print("\nTwitter Python Help\n")
         print("Tweet=>ツイートを送信するコマンド。\n")
         print("login as=>ログイン中のアカウントを表示するコマンド。\n")
-        print("logout=>Twitter python for crowを終了するコマンド。\n")
+        print("logout=>Twitter for CUIを終了するコマンド。\n")
     elif (twitter_cui_command == "logout") :
         print('Twitter for Pythonを終了します。')
         break
