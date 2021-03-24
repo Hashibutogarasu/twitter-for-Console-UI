@@ -55,7 +55,7 @@ if __name__ == '__main__':
     if auth.access_token is None :
         if auth.access_token_secret is None :
             print('PINコードが間違っています。')
-            print('Twitter python for crowを終了します。')
+            print('Twitter for CUIを終了します。')
             time.sleep(2)
             sys.exit()
 
