@@ -50,7 +50,7 @@ def main():
             else:
                 print("Canceled")
         elif cmd == "tweet": #tweet
-            tweettext = input("Enter your tweet content:").split('//newline//')
+            tweettext = input("Enter your tweet content:").split('/newline/')
             imagepath = input("Enter image path:")
             if(os.path.exists(imagepath)):
                 try:
