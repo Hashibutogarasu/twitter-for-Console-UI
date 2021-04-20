@@ -77,6 +77,14 @@ def main():
             print(platform.platform())
         elif cmd == "version":
             print("twitter for Console UI\nversion:2.0.0")
+        elif cmd == "help":
+            print("twitter for Console UI help")
+            print("tweet:send tweet")
+            print("update profile:change account name")
+            print("notice:show mentions")
+            print("close:close twitter for Console UI")
+            print("os version:show your OS version")
+            print("help:show commands")
         else:
             print("That command does not exists")
 
