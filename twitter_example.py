@@ -75,6 +75,10 @@ def main():
             sys.exit()
         elif cmd == "os version":
             print(platform.platform())
+        elif cmd == "version":
+            print("twitter for Console UI\nversion:2.0.0")
+        else:
+            print("That command does not exists")
 
 if __name__ == '__main__':
     try:
