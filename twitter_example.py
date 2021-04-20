@@ -102,6 +102,6 @@ if __name__ == '__main__':
     except:
         traceback.print_exc()
         while True:
-            print(f"起動に失敗しました")
-            kakuninn = input("終了するにはEnterキーを押してください...")
+            print("Failed to run this application")
+            kakuninn = input("Push Enter key to close...")
             sys.exit()
