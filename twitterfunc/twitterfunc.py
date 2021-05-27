@@ -10,6 +10,38 @@ def profile(api):
   
   print("場所:" + user.location)
   
+def user_timeline(api):
+  user_id = input("user_id:")
+	
+  for status in api.user_timeline(user_id):
+    if (("RT" in status.text) == False):
+
+      print("\n")	
+      print("-"*42)
+      
+      if status.user.verified == True:
+        print(status.user.name + " ✔︎" + " @" + status.user.screen_name)
+      else:
+      	print(status.user.name + " @" + status.user.screen_name)
+
+      print(status.text.replace("https://t.co","\nhttps://t.co"))
+      print(f"いいね:{status.favorite_count} リツイート:{status.retweet_count}")
+      if status.favorited == True:
+        print("いいね済み")
+      elif status.favorited ==True and status.retweeted == True:
+        print("いいね済み リツイート済み")
+      elif status.favorited == False and status.retweeted == True:
+        print("リツイート済み")
+      else:
+        pass
+
+      print(str(status.created_at)+ " " +status.source)
+      print()
+      print(f"ツイートid:{status.id}")
+      print(f"ユーザーid:{status.user.id}")
+      print(f"url:https://twitter.com/{status.user.screen_name}/status/{status.id}")
+
+
 def favorite(api):
 	
   id = input("tweet_id:")
@@ -109,7 +141,22 @@ def tweet(api):
   id = input("tweet_id:")
 
   try:
+      me = api.me()
+      
       api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True)
       print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+      
   except:
     print("ツイートを送信できませんでした。")
+
+
+def tweetdestroy(api):
+  id = input("tweet_id:")
+  try:
+    api.destroy_status(id)
+    print("ツイ消ししました。")
+  except:
+    print("ツイ消しに失敗しました。")
