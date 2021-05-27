@@ -10,11 +10,7 @@ def connect():
   auth = tweepy.OAuthHandler(config.ck, config.cs)
   auth.set_access_token(config.at, config.ats)
   api = tweepy.API(auth)
-  try:
-    me = api.me()
-  except:
-  	print("キーが間違っています。")
-  	sys.exit()
+  me = api.me()
   return api
 
 
@@ -32,7 +28,9 @@ COMMANDS = {
     'follow':tw.follow,
     'unfollow':tw.unfollow,
     'user_info':tw.profile,
-    'help':twchelp
+    'help':twchelp,
+    'destroytweet':tw.tweetdestroy,
+    'user_timeline':tw.user_timeline
 }
 
 def main():
