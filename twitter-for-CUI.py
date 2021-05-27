@@ -18,6 +18,11 @@ def connect():
   return api
 
 
+def twchelp(api):
+	content = ("twitter-for-CUI help\ntimeline:タイムラインを表示出来ます。\ntweet:ツイートが出来ます。\nretweet:リツイートが出来ます。\nfavorite:いいねが出来ます。\nfollow:フォローが出来ます。\nunfollow:フォロー解除が出来ます。\nuser_info:ユーザーの詳細を確認できます。\n更なる詳細は\nhttps://github.com/Hashibutogarasu/twitter-for-Console-UI\nで確認できます。")
+	print(content)
+
+
 COMMANDS = {
     'timeline': tw.timeline,
     'TL': tw.timeline,
@@ -26,7 +31,8 @@ COMMANDS = {
     'favorite': tw.favorite,
     'follow':tw.follow,
     'unfollow':tw.unfollow,
-    'user_info':tw.profile
+    'user_info':tw.profile,
+    'help':twchelp
 }
 
 def main():
