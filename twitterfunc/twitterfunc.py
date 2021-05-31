@@ -135,22 +135,48 @@ def timeline(api):
       print(f"url:https://twitter.com/{status.user.screen_name}/status/{status.id}")
 
 
+
+
 def tweet(api):
 	
-  content = input("tweet_content:")
-  id = input("tweet_id:")
+  fav = False
+  
+  me = api.me()
 
-  try:
-      me = api.me()
+  content = input("tweet_content:")
+  
+  if len(content) == 0:
+    print("ツイートの内容は一文字以上にして下さい。")
+    return
+  
+  id = input("tweet_id:")
+  
+  if len(id) != 0:
+    confirm = input("いいねしますか？\nyes/no:")
+    if confirm == "yes":
+      fav = True
+    else:
+      fav = False
       
+  if fav == True:
+    try:
+      api.create_favorite(id)
+      print("いいねしました。")
+    except:
+      pass
+    try:
       api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True)
       print("ツイートしました。")
-      for status in api.user_timeline(id=me.screen_name,count = 1):
-        print("ツイートid:"+str(status.id))
-        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
-      
-  except:
-    print("ツイートを送信できませんでした。")
+    except:
+      print("ツイートの送信に失敗しました。")
+      return
+  
+  else:
+    api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True)
+    print("ツイートしました。") 
+  for status in api.user_timeline(id=me.screen_name,count = 1):
+    print("ツイートid:"+str(status.id))
+    print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
 
 
 def tweetdestroy(api):
@@ -160,3 +186,19 @@ def tweetdestroy(api):
     print("ツイ消ししました。")
   except:
     print("ツイ消しに失敗しました。")
+    
+def search(api):
+  search_text=input("search:")
+
+  word = [search_text]
+  set_count = 10
+  results = api.search(q=word, count=set_count)
+
+  for result in results:
+    username = result.user._json['screen_name']
+    user_id = result.id
+    print("ユーザーID："+str(user_id))
+    user = result.user.name
+    print("ユーザー名："+user)
+    tweet = result.text
+    print("ユーザーのコメント："+tweet)
