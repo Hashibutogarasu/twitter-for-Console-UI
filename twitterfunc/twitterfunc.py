@@ -1,32 +1,43 @@
 def timeline(api):
-  for status in api.home_timeline():
-	
-    if (("RT" in status.text) == False):
+  try:
+    for status in api.home_timeline():
+    
+      if (("RT" in status.text) == False):
 
-      print("\n")	
-      print("-"*42)
+        print("-"*42)
+
+        if status.user.verified == True:
+          print(status.user.name + " ✔︎" + " @" + status.user.screen_name)
+        else:
+        	print(status.user.name + " @" + status.user.screen_name)
+
+        print(status.text.replace("https://t.co","\nhttps://t.co"))
+        print(f"いいね:{status.favorite_count} リツイート:{status.retweet_count}")
+        if status.favorited == True:
+          print("いいね済み")
+        elif status.favorited ==True and status.retweeted == True:
+          print("いいね済み リツイート済み")
+        elif status.favorited == False and status.retweeted == True:
+          print("リツイート済み")
+        else:
+          pass
+
+        print(str(status.created_at)+ " " +status.source)
+        print()
+        print(f"ツイートid:{status.id}")
+        print(f"ユーザーid:{status.user.id}")
+        print(f"url:https://twitter.com/{status.user.screen_name}/status/{status.id}")
+
+    limit_data = api.rate_limit_status()
+    print("\nタイムライン取得残り回数:"+str(limit_data['resources']['statuses']['/statuses/home_timeline']['remaining']))
+
+    print("\nリセットまで:"+(str(limit_data['resources']['statuses']['/statuses/home_timeline']['reset'])))  
+  
+  except:
+    limit_data = api.rate_limit_status()
+    print("APIの呼び出し制限を超えました。\nしばらくしてからもう一度やり直してください。")
+    print(limit_data['resources']['statuses']['/statuses/home_timeline']['remaining'])
       
-      if status.user.verified == True:
-        print(status.user.name + " ✔︎" + " @" + status.user.screen_name)
-      else:
-      	print(status.user.name + " @" + status.user.screen_name)
-
-      print(status.text.replace("https://t.co","\nhttps://t.co"))
-      print(f"いいね:{status.favorite_count} リツイート:{status.retweet_count}")
-      if status.favorited == True:
-        print("いいね済み")
-      elif status.favorited ==True and status.retweeted == True:
-        print("いいね済み リツイート済み")
-      elif status.favorited == False and status.retweeted == True:
-        print("リツイート済み")
-      else:
-        pass
-
-      print(str(status.created_at)+ " " +status.source)
-      print()
-      print(f"ツイートid:{status.id}")
-      print(f"ユーザーid:{status.user.id}")
-      print(f"url:https://twitter.com/{status.user.screen_name}/status/{status.id}")
 
 def tweet(api):
 	
@@ -40,6 +51,14 @@ def tweet(api):
     print("ツイートの内容は一文字以上にして下さい。")
     return
   
+  image_path = input("image path:")
+
+  if len(image_path) == 0:
+    image_tweet = False #画像無しツイート
+  else:
+    image_tweet = True #画像ありツイート
+
+
   id = input("tweet_id:")
   
   if len(id) != 0:
@@ -49,25 +68,71 @@ def tweet(api):
     else:
       fav = False
       
-  if fav == True:
+  if fav == True and image_tweet == False: #いいねと画像無しツイート
     try:
       api.create_favorite(id)
       print("いいねしました。")
     except:
       pass
     try:
-      api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True)
+      api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True) #画像無し
       print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+    except:
+      print("ツイートの送信に失敗しました。")
+      return
+
+  elif fav == True and image_tweet == True: #いいねと画像ありツイート
+    try:
+      api.create_favorite(id)
+      print("いいねしました。")
+    except:
+      pass
+    try:
+      api.update_with_media(status = content,filename=image_path, in_reply_to_status_id = id,auto_populate_reply_metadata=True) #画像あり
+      print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+    except:
+      print("ツイートの送信に失敗しました。")
+      return
+
+  elif fav == False and image_tweet == False: #いいねなしと画像無しツイート
+    try:
+      api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True) #画像無し
+      print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+    except:
+      print("ツイートの送信に失敗しました。")
+      return
+
+  elif fav == False and image_tweet == True: #いいねなしと画像ありツイート
+    try:
+      api.update_with_media(status = content,filename=image_path, in_reply_to_status_id = id,auto_populate_reply_metadata=True) #画像あり
+      print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
     except:
       print("ツイートの送信に失敗しました。")
       return
   
   else:
-    api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True)
-    print("ツイートしました。") 
-  for status in api.user_timeline(id=me.screen_name,count = 1):
-    print("ツイートid:"+str(status.id))
-    print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+    try:
+      api.update_status(status = content, in_reply_to_status_id = id,auto_populate_reply_metadata=True) #画像無し
+      print("ツイートしました。")
+      for status in api.user_timeline(id=me.screen_name,count = 1):
+        print("ツイートid:"+str(status.id))
+        print("https://twitter.com/" + me.screen_name + "/status/" + str(status.id))
+    except:
+      print("ツイートの送信に失敗しました。")
+      return
+      
 
 def tweetdestroy(api):
   id = input("tweet_id:")
@@ -215,3 +280,9 @@ def search(api):
       print(f"ツイートid:{status.id}")
       print(f"ユーザーid:{status.user.id}")
       print(f"url:https://twitter.com/{status.user.screen_name}/status/{status.id}")
+
+def loginas(api):
+  me = api.me()
+  print(f"名前:{me.name}")
+  print(f"スクリーンネーム:{me.screen_name}")
+  print(f"ユーザーID:{me.id}")
