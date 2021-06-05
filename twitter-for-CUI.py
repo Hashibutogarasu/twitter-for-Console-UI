@@ -19,6 +19,7 @@ def connect():
         auth.set_access_token(at, ats)
         api = tweepy.API(auth)
         me = api.me()
+        print(f"ようこそ{me.name}さん")
         return api
     except:
         print('[Error]keyが設定されていません。\nkey_config.jsonに正しいキーを入力してください。')
