@@ -1,3 +1,5 @@
+import json
+
 def timeline(api):
   try:
     for status in api.home_timeline():
@@ -40,6 +42,13 @@ def timeline(api):
       
 
 def tweet(api):
+
+  json_open = open('./twitterfunc/key_config.json', 'r')
+  json_load = json.load(json_open)
+
+  default_image_path = json_load['default_image_path']
+
+  print(default_image_path)
 	
   fav = False
   
@@ -58,6 +67,7 @@ def tweet(api):
   else:
     image_tweet = True #画像ありツイート
 
+  image_path = default_image_path + image_path #デフォルトのパスに画像を追加
 
   id = input("tweet_id:")
   
@@ -286,3 +296,7 @@ def loginas(api):
   print(f"名前:{me.name}")
   print(f"スクリーンネーム:{me.screen_name}")
   print(f"ユーザーID:{me.id}")
+
+def twchelp(api):
+	content = ("twitter-for-CUI help\ntimeline:タイムラインを表示出来ます。\ntweet:ツイートが出来ます。\nretweet:リツイートが出来ます。\nfavorite:いいねが出来ます。\nfollow:フォローが出来ます。\nunfollow:フォロー解除が出来ます。\nuser_info:ユーザーの詳細を確認できます。\n更なる詳細は\nhttps://github.com/Hashibutogarasu/twitter-for-Console-UI\nで確認できます。")
+	print(content)
