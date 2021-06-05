@@ -1,17 +1,33 @@
 import sys
 import time
+import json
 import tweepy
 
-from twitterfunc import config
 from twitterfunc import twitterfunc as tw
 
-
 def connect():
-  auth = tweepy.OAuthHandler(config.ck, config.cs)
-  auth.set_access_token(config.at, config.ats)
-  api = tweepy.API(auth)
-  me = api.me()
-  return api
+    try:
+        json_open = open('./twitterfunc/key_config.json', 'r')
+        json_load = json.load(json_open)
+
+        ck = json_load['api_key']
+        cs = json_load['api_key_secret']
+        at = json_load['access_token']
+        ats = json_load['access_token_secret']
+        
+        auth = tweepy.OAuthHandler(ck, cs)
+        auth.set_access_token(at, ats)
+        api = tweepy.API(auth)
+        me = api.me()
+        return api
+    except:
+        print('[Error]keyが設定されていません。\nkey_config.jsonに正しいキーを入力してください。')
+        key_data = {'api_key': '', 'api_key_secret': '', 'access_token': '','access_token_secret':''}
+
+        with open('./twitterfunc/key_config.json', 'w') as f:
+            json.dump(key_data, f, indent=2, ensure_ascii=False)
+        
+        sys.exit()
 
 
 def twchelp(api):
@@ -34,6 +50,7 @@ COMMANDS = {
     'user_info':tw.profile,
     'user_timeline':tw.user_timeline,
     'search':tw.search,
+    'loginas':tw.loginas,
     'help':twchelp,
     'close':close
 
@@ -50,4 +67,4 @@ if __name__ == "__main__":
     try:
 	    main()
     except KeyboardInterrupt:
-        print("が押されました。")
+        print("Ctrl+Cが押されました。")
