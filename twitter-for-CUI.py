@@ -13,6 +13,8 @@ def connect():
         cs = json_load['api_key_secret']
         at = json_load['access_token']
         ats = json_load['access_token_secret']
+
+        default_image_path = json_load['default_image_path']
         
         auth = tweepy.OAuthHandler(ck, cs)
         auth.set_access_token(at, ats)
@@ -22,17 +24,13 @@ def connect():
         return api
     except:
         print('[Error]keyが設定されていません。\nkey_config.jsonに正しいキーを入力してください。')
-        key_data = {'api_key': '', 'api_key_secret': '', 'access_token': '','access_token_secret':''}
+        key_data = {'api_key': '', 'api_key_secret': '', 'access_token': '','access_token_secret':'','default_image_path':''}
 
         with open('./twitterfunc/key_config.json', 'w') as f:
             json.dump(key_data, f, indent=2, ensure_ascii=False)
         
         sys.exit()
 
-
-def twchelp(api):
-	content = ("twitter-for-CUI help\ntimeline:タイムラインを表示出来ます。\ntweet:ツイートが出来ます。\nretweet:リツイートが出来ます。\nfavorite:いいねが出来ます。\nfollow:フォローが出来ます。\nunfollow:フォロー解除が出来ます。\nuser_info:ユーザーの詳細を確認できます。\n更なる詳細は\nhttps://github.com/Hashibutogarasu/twitter-for-Console-UI\nで確認できます。")
-	print(content)
 
 def close(api):
     sys.exit()
@@ -51,7 +49,7 @@ COMMANDS = {
     'user_timeline':tw.user_timeline,
     'search':tw.search,
     'loginas':tw.loginas,
-    'help':twchelp,
+    'help':tw.twchelp,
     'close':close
 
 }
