@@ -1,4 +1,17 @@
 import json
+import os
+import sys
+
+try:
+    for env in os.environ:
+        if str(env + ' : ' + os.environ.get(env)).startswith("USERPROFILE") == True:
+            config_path = ((os.environ.get(env))+"\\twitter\\key_config.json")
+            config_path = (config_path.replace("\\","/"))
+            config_dir = (os.environ.get(env))+"\\twitter\\"
+            config_dir = (config_dir.replace("\\","/"))
+except:
+    print("パスの取得に失敗しました。")
+    sys.exit()
 
 def timeline(api):
   try:
@@ -43,12 +56,10 @@ def timeline(api):
 
 def tweet(api):
 
-  json_open = open('./twitterfunc/key_config.json', 'r')
+  json_open = open(config_path, 'r')
   json_load = json.load(json_open)
 
   default_image_path = json_load['default_image_path']
-
-  print(default_image_path)
 	
   fav = False
   
