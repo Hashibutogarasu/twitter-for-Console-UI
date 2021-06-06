@@ -1,4 +1,4 @@
-# twitter_for_python
+# twitter-for-CUI
 <p>CUI環境からツイートできるようにするやつ</p>
 
 <p>使い方</p>
