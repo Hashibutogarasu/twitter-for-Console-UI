@@ -5,7 +5,7 @@
 
 <p>・pip install tweepy</p>
 <p>をcmd内で実行する。すでにインストールしてあるなら実行しなくてもよき。</p>
-<pp>テキストエディタやらでtwitterfunc/key_config.jsonを開く。</p>
+<pp>テキストエディタやらでC:/Users/ユーザー名/twitter/key_config.jsonを開く。</p>
 <p>自分のtwitter developersで取得したアプリのapi keyとapi key secretなどを突っ込む。</p>
 <p>突っ込んだら、Ctrl+Sとかで保存して実行しろください。</p>
 <br>
